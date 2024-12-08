@@ -12,8 +12,8 @@ pool: Default
 steps:
 - task: SonarCloudPrepare@3
   inputs:
-    SonarQube: 'SONAR_CLOUD'
-    organization: 'aug24'
+    SonarQube: 'SONAR_CLOUD_1'
+    organization: 'azdevopslt'
     scannerMode: 'other'
 - task: Maven@4
   inputs:
