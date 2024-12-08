@@ -15,6 +15,8 @@ steps:
     SonarQube: 'SONAR_CLOUD_1'
     organization: 'azdevopslt'
     scannerMode: 'other'
+    projectKey: azdevopslt_azure-devops
+    
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
