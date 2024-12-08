@@ -13,9 +13,9 @@ steps:
 - task: SonarCloudPrepare@3
   inputs:
     SonarQube: 'SONAR_CLOUD'
-    organization: 'dec24'
+    organization: 'aug24'
     scannerMode: 'other'
-    projectKey: dec24_springpetclinic
+    projectKey: aug24_azdevops-spring-petclinic
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
