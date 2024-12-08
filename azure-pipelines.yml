@@ -15,16 +15,14 @@ steps:
     SonarQube: 'SONAR_CLOUD'
     organization: 'dec24'
     scannerMode: 'other'
+    projectKey: dec24_springpetclinic
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
-    sonarQubeRunAnalysis: false
+    sonarQubeRunAnalysis: true
     goals: 'package'
-- task: SonarCloudAnalyze@3
-  inputs:
-    jdkversion: 'JAVA_HOME_17_X64'
 - task: SonarCloudPublish@3
   inputs:
     pollingTimeoutSec: '300'
