@@ -4,26 +4,37 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
 
 trigger:
-- main
+- master
 
 pool: Default
+variables:
+  SONAR_PROJECT_KEY: 'azdevopslt_azure-devops'
+  SONAR_ORGANIZATION: 'azdevopslt'
+  SONAR_TOKEN: '25506995eaf522f172de92ee925a7b90a1baa299' # Add this as a secret variable in Azure DevOps
   
 
 steps:
 - task: SonarCloudPrepare@3
   inputs:
     SonarQube: 'SONAR_CLOUD_1'
-    organization: 'azdevopslt'
-    scannerMode: 'other'
-    projectKey: azdevopslt_azure-devops
-    
+    organization: '$(SONAR_ORGANIZATION)'
+    scannerMode: 'CLI'
+    configMode: 'manual'
+    cliProjectKey: '$(SONAR_PROJECT_KEY)'
+    cliProjectName: '$(Build.Repository.Name)'
+    cliProjectVersion: '$(Build.BuildId)'
 - task: Maven@4
   inputs:
     mavenPomFile: 'pom.xml'
     publishJUnitResults: true
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     sonarQubeRunAnalysis: true
-    goals: 'package'
+    goals: 'clean install sonar:sonar'
+    options: |
+      -Dsonar.projectKey=$(SONAR_PROJECT_KEY) \
+      -Dsonar.organization=$(SONAR_ORGANIZATION) \
+      -Dsonar.host.url=https://sonarcloud.io \
+      -Dsonar.login=$(SONAR_TOKEN)
 - task: SonarCloudPublish@3
   inputs:
     pollingTimeoutSec: '300'
